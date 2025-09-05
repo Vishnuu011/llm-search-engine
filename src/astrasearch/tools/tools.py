@@ -1,10 +1,11 @@
 import requests
-import os
+import os,sys
 import arxiv
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from langchain.tools import tool
 import yfinance as yf
+from src.astrasearch.exception import SearchEngineException
 
 load_dotenv()
 
@@ -40,7 +41,7 @@ def google_search(queary: str) -> list[dict]:
         ]
 
     except Exception as e:
-        print(f"[ERROR in google_search] : {e}")
+        raise SearchEngineException(e, sys)
 
        
 
@@ -64,7 +65,7 @@ def arxiv_search(query: str) -> list[dict]:
         return results   
         
     except Exception as e:
-        print(f"[ERROR in arxiv_search] : {e}")
+        SearchEngineException(e, sys)
 
 
  
@@ -95,7 +96,8 @@ def youtube_search(query: str) -> list[dict]:
             for item in res.get("items", [])
         ]       
     except Exception as e:
-        print(f"[ERROR in youtubesearch] : {e}")
+        raise SearchEngineException(e, sys)
+       
 
 
 
@@ -131,8 +133,6 @@ def get_stock_price(stock_symbol: str) -> str:
         )
     
     except Exception as e:
-        print(f"[ERROR get_stock_price (tool)]: {e}")    
+        raise SearchEngineException(e, sys)   
 
 
-result = get_stock_price(stock_symbol="TATASTEEL.NS")
-print(result)

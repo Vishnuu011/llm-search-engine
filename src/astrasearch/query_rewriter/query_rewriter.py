@@ -10,6 +10,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 
 from typing import Optional, List, Literal
+from src.astrasearch.exception import SearchEngineException
+import sys
 
 load_dotenv()
 
@@ -65,4 +67,4 @@ def query_rewriter_agent(model_name: str, temperature: float | int ) -> Optional
 
         return chain
     except Exception as e:
-        print(f"ERROR IN QUERY RE-WRITER: {e}")
+        raise SearchEngineException(e, sys)
