@@ -99,14 +99,14 @@ def youtube_search(query: str) -> list[dict]:
 
 
 
-@tool("Live Stock Information Tool")
+
 def get_stock_price(stock_symbol: str) -> str:
 
     """
     Retrieves the latest stock price and other relevant info for a given stock symbol using Yahoo Finance.
 
     Parameters:
-        stock_symbol (str): The ticker symbol of the stock (e.g., AAPL, TSLA, MSFT).
+        stock_symbol (str): The ticker symbol of the stock (e.g., AAPL, TSLA, MSFT, INFY.NS, TATASTEEL.NS).
 
     Returns:
         str: A summary of the stock's current price, daily change, and other key data.
@@ -131,4 +131,8 @@ def get_stock_price(stock_symbol: str) -> str:
         )
     
     except Exception as e:
-        print(f"[ERROR get_stock_price (tool)]: {e}")        
+        print(f"[ERROR get_stock_price (tool)]: {e}")    
+
+
+result = get_stock_price(stock_symbol="TATASTEEL.NS")
+print(result)
