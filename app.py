@@ -8,7 +8,7 @@ from src.astrasearch.utils.some_utils import *
 from langchain_core.messages import HumanMessage
 
 app = Flask(__name__, template_folder="template")
-CORS(app)   # <--- enable CORS for all routes
+CORS(app)  
 
 @app.route("/")
 def index():
@@ -28,7 +28,7 @@ def search():
     # Run rewriter
     rewritten_result = rewriter.invoke(raw_query)
 
-    # Ensure it's plain string
+  
     if hasattr(rewritten_result, "query"):
         rewritten_query = rewritten_result.query
     else:
