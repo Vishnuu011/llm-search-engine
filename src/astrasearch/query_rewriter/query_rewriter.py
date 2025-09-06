@@ -28,7 +28,8 @@ class StructuredQuery(BaseModel):
 def query_rewriter_agent(model_name: str, temperature: float | int ) -> Optional[RunnableSequence]:
 
     try:
-        system_prompt = system_prompt = """You are a query refiner and normalizer.
+        system_prompt = """
+        You are a query refiner and normalizer.
 
         Your tasks:
         1. Take the user's raw query and rewrite it into a clean, well-structured query.
