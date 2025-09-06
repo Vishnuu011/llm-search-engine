@@ -6,6 +6,7 @@ from src.astrasearch.tools.tools import google_search, youtube_search, arxiv_sea
 from src.astrasearch.agents.agent_workflow import CompliedGraphSupervisorWorkflow
 from src.astrasearch.utils.some_utils import *
 from langchain_core.messages import HumanMessage
+import os
 
 app = Flask(__name__, template_folder="template")
 CORS(app)  
@@ -57,4 +58,4 @@ def search():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
