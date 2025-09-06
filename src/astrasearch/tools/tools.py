@@ -71,32 +71,47 @@ def arxiv_search(query: str) -> list[dict]:
  
 
 def youtube_search(query: str) -> list[dict]:
-
-    """Searches youtube for the given query."""
-
+    """Searches YouTube for the given query and returns only valid videos with thumbnails."""
     try:
         youtube = build(
-            "youtube", 
-            "v3", 
+            "youtube",
+            "v3",
             developerKey=YOUTUBE_API_KEY
         )
         req = youtube.search().list(
-            q=query, 
-            part="snippet", 
-            type="video", 
+            q=query,
+            part="id,snippet",   # include both id + snippet
+            type="video",        # restricts to video only
             maxResults=5
         )
         res = req.execute()
-        return [
-            {
-                "title": item["snippet"]["title"],
-                "url": f"https://www.youtube.com/watch?v={item['id']['videoId']}",
-                "channel": item["snippet"]["channelTitle"],
-            }
-            for item in res.get("items", [])
-        ]       
+
+        results = []
+        for item in res.get("items", []):
+            video_id = item.get("id", {}).get("videoId")
+            if not video_id:  # skip if no videoId
+                continue
+
+            snippet = item.get("snippet", {})
+            thumbnails = snippet.get("thumbnails", {})
+            thumbnail_url = (
+                thumbnails.get("high", {}).get("url") or
+                thumbnails.get("medium", {}).get("url") or
+                thumbnails.get("default", {}).get("url")
+            )
+
+            results.append({
+                "title": snippet.get("title"),
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "channel": snippet.get("channelTitle"),
+                "thumbnail": thumbnail_url   # ✅ include thumbnail
+            })
+
+        return results
+
     except Exception as e:
         raise SearchEngineException(e, sys)
+
        
 
 

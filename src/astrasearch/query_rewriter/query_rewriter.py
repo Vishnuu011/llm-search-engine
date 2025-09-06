@@ -12,6 +12,8 @@ from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import Optional, List, Literal
 from src.astrasearch.exception import SearchEngineException
 import sys
+import warnings
+warnings.filterwarnings("ignore")
 
 load_dotenv()
 

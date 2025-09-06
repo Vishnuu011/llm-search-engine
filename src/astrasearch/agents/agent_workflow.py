@@ -19,18 +19,18 @@ load_dotenv()
 
 class CompliedGraphSupervisorWorkflow:
 
-    def __int__(self, model_name: str, temperature: float | int):
+    def __int__(self):
 
-        self.model_name = model_name
-        self.temperature = temperature
+        pass
 
+      
 
     def finance_react_agent(self) -> Optional[CompiledStateGraph]:
 
         try:
             model=ChatGroq(
-                model=self.model_name,
-                temperature=self.temperature
+                model="llama-3.3-70b-versatile",
+                temperature=0.7
             )
 
             finance_agent = create_react_agent(
@@ -55,8 +55,8 @@ class CompliedGraphSupervisorWorkflow:
 
         try:
             model=ChatGroq(
-                model=self.model_name,
-                temperature=self.temperature
+                model="llama-3.3-70b-versatile",
+                temperature=0.7
             )
 
             search_engine_agent = create_react_agent(
@@ -102,8 +102,8 @@ class CompliedGraphSupervisorWorkflow:
 
         try:
             model=ChatGroq(
-                model=self.model_name,
-                temperature=self.temperature
+                model="llama-3.3-70b-versatile",
+                temperature=0.7
             )
 
             arxiv_search_agent = create_react_agent(
@@ -126,6 +126,59 @@ class CompliedGraphSupervisorWorkflow:
 
             return arxiv_search_agent
         
+        except Exception as e:
+            raise SearchEngineException(e, sys)    
+        
+
+    def supervisor_worflow(self) -> Optional[CompiledStateGraph]:
+
+        try:
+            model=ChatGroq(
+                model="llama-3.3-70b-versatile",
+                temperature=0.7
+            )
+
+            workflow = create_supervisor(
+                agents=[
+                    self.search_engine_react_agent(),
+                    self.research_arxiv_react_agent(),
+                    self.finance_react_agent()
+                ],
+                model=model,
+                prompt=(
+                    "You are a **strict supervisor** coordinating two expert agents:\n\n"
+                    "- **search_engine_expert** → Responsible for current and recent events. Must always use Google Search.\n"
+                    "- **research_expert** → Responsible for academic and research topics. Must always use arXiv.\n\n"
+
+                    "### Your Responsibilities\n"
+                    "1. **Routing**: Decide which expert is best suited for the user’s query and send the query ONLY to that expert.\n"
+                    "2. **Rewriting**: When the expert provides a response, you must ALWAYS rewrite it into a final answer.\n"
+                    "   - Do not copy or pass the expert’s text directly.\n"
+                    "   - Do not shorten excessively—expand into a **comprehensive Markdown explanation**.\n"
+                    "   - Your rewritten output must be between **3–7 paragraphs**.\n"
+                    "3. **Content Rules**:\n"
+                    "   - Keep all important points and insights from the expert.\n"
+                    "   - Present the information in clear, well-structured **Markdown format**.\n"
+                    "   - Use `###` headings and bullet points where appropriate.\n"
+                    "   - Never invent or add new information beyond what the expert provided.\n"
+                    "   - Always include a `### Sources` section at the end with the exact source links the expert provided.\n\n"
+
+                    "### Output Format (Strictly Follow)\n"
+                    "Your final answer must strictly follow this structure:\n\n"
+                    "### Explanation\n"
+                    "- Write a clear and factual explanation expanded into **3–7 paragraphs**.\n"
+                    "- Use Markdown headings, bullet points, or bold text when helpful.\n\n"
+                    "### Sources\n"
+                    "- List all sources as bullet points exactly as given by the expert.\n\n"
+
+                    "⚠️ IMPORTANT: Never return the expert’s response as-is. Always rewrite it into a polished Markdown summary following the format above."
+                )
+            )
+
+            app = workflow.compile()
+
+            return app
+
         except Exception as e:
             raise SearchEngineException(e, sys)    
         
