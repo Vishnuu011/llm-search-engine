@@ -8,3 +8,5 @@ arxiv
 langgraph-supervisor
 google-api-python-client
 yfinance
+gunicorn
+python-dotenv
