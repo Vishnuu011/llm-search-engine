@@ -20,13 +20,13 @@ def search():
     data = request.get_json()
     raw_query = data.get("query")
 
-    # Get rewriter runnable
+
     rewriter = query_rewriter_agent(
         model_name="llama-3.3-70b-versatile",
         temperature=0.7
     )
 
-    # Run rewriter
+    
     rewritten_result = rewriter.invoke(raw_query)
 
   
