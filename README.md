@@ -34,7 +34,7 @@ Deployed on **Render** with Flask backend and a clean HTML/CSS frontend.
 
 ## Video
 
-c:\Users\VISHNU\Desktop\llm_search\llm-search-engine\video\llm-search-engine-video.mp4
+![SearchEngine](video/llm-search-engine-video.mp4)
 
 ---
 
