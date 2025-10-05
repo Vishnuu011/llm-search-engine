@@ -7,6 +7,7 @@ Deployed on **Render** with Flask backend and a clean HTML/CSS frontend.
 ---
 
 ## ✨ Features
+
 - 🔍 **Natural Language Search** → Ask any question in plain English.
 - 📑 **Markdown Answers** → Results are rendered beautifully with headings, lists, and highlights.
 - 📚 **Source Links** → Displays references, research papers, and YouTube videos, and google websites.
@@ -14,11 +15,12 @@ Deployed on **Render** with Flask backend and a clean HTML/CSS frontend.
 - 🎥 **YouTube Integration** → [YouTube API](https://console.cloud.google.com/)Fetches related videos with thumbnails.
 - 📄 **Research Papers** → Retrieves academic papers from arXiv and other APIs.
 - 🌍 **Google Search** → Uses [Serper API](https://serper.dev/) for reliable Google search results.
-- 🎨 **UI** → Dark theme, responsive, and user-friendly. 
+- 🎨 **UI** → Dark theme, responsive, and user-friendly.
 
 ---
 
 ## 🛠️ Tech Stack
+
 - **Backend**: [Flask](https://flask.palletsprojects.com/) + [LangChain](https://www.langchain.com/) + [Groq LLM](https://groq.com/) + [Langgraph](https://www.langchain.com/langgraph)
 - **Frontend**: HTML + CSS + JavaScript (Vanilla, no framework)
 - **APIs & Tools**:
@@ -27,6 +29,12 @@ Deployed on **Render** with Flask backend and a clean HTML/CSS frontend.
   - arXiv API 📄
   - Google Search (Serper API) 🌍
 - **Deployment**: [Render](https://render.com/) with Gunicorn
+
+---
+
+## Video
+
+<video controls src="video/llm-search-engine-video.mp4" title="Search Engine Demo Video"></video>
 
 ---
 
@@ -46,6 +54,7 @@ python -m venv venv
 source venv/bin/activate   # Mac/Linux
 venv\Scripts\activate      # Windows
 ```
+
 ### 3. Install dependencies
 
 ```bash
@@ -60,3 +69,4 @@ Create a **.env** file:
 SERPER_API_KEY=your_google_key
 GROQ_API_KEY=your_custom_search_cx
 YOUTUBE_API_KEY=your_youtube_key
+```
